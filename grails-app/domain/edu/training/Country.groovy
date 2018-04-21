@@ -12,8 +12,10 @@ class Country {
             }
         })
 
-        name(nullable: false,blank: false,validator: {val,obj,errors->
-            if (val.toLowerCase().contains("israel")) return ['countryNotValid']
+        name(nullable: false,blank: false,validator: {val,obj->
+            if (val.toLowerCase().contains("israel") ) {
+                return ['countryNotValid',val]
+            }
         })
     }
 }

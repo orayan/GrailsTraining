@@ -8,11 +8,8 @@ class User {
     Date dateCreated
     Date lastUpdated
 
-    Profile profile
+    static hasOne = [profile:Profile]
 
-    static belongsTo = [Profile]
-
-//    static hasMany = [posts:Post,tags:Tag,following:User]
     static hasMany = [following:User,transactions:Transaction]
 
     static constraints = {
@@ -30,5 +27,11 @@ class User {
         table '`USER`'
         password column: '`password`'
         profile lazy: false //tell grails to load profile with user
+    }
+
+
+    @Override
+    public String toString() {
+        return  userId
     }
 }

@@ -1,5 +1,9 @@
 package edu.training
 
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneId
+
 class Profile {
 
     Byte[] photo
@@ -9,6 +13,8 @@ class Profile {
     String email
     String timezone
     String address
+
+    Double salary
 
     Integer age
 
@@ -22,10 +28,13 @@ class Profile {
 
     static transients = ['age']
 
-    static belongsTo = [Country, User]
+    static belongsTo = [Country,User]
+
+
 
     static constraints = {
         photo(nullable: true)
+        salary(nullable: true)
         fullName(nullable: false,blank: false)
         bio(nullable: true,blank: false)
         email(nullable: true,blank: false,email: true)
@@ -38,6 +47,11 @@ class Profile {
     }
 
     static mapping = {
-        description type: 'text'
+        description type: 'text',sqlType: "CLOB"
+    }
+
+
+    Integer getAge() {
+        return Period.between(dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
     }
 }

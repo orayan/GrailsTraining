@@ -14,11 +14,16 @@ class Transaction {
     static constraints = {
         classification(nullable: false)
         user(nullable: false)
-//        dateCreated(nullable: false)
-//        lastUpdated(nullable: false)
     }
 
     static mapping = {
         tablePerHierarchy false
+    }
+
+
+    @Override
+    public String toString() {
+        return "classification=" + classification +
+                ", user=" + user;
     }
 }

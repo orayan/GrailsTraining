@@ -6,9 +6,13 @@ class Post extends Transaction {
 
     static hasMany = [tags:Tag]
 
-
     static constraints = {
         content(blank: false,maxSize: 1024)
     }
 
+
+    @Override
+    public String toString() {
+        return "content: $content for user: $user"
+    }
 }

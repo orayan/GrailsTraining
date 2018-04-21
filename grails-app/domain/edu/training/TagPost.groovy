@@ -9,4 +9,8 @@ class TagPost {
         tag(nullable: false)
         post(nullable: false)
     }
+
+    static mapping = {
+        version false
+    }
 }

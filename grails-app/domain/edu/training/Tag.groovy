@@ -7,8 +7,6 @@ class Tag extends Transaction{
 
     static belongsTo = [Post]
 
-    static hasMany = [tagPosts:TagPost]
-
     static constraints = {
         name(blank: false,maxSize: 20)
         post(nullable: false)
