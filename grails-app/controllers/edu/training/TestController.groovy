@@ -33,6 +33,9 @@ class TestController {
             country.save(flush:true,failOnError:true)
         }
 
+
+
+
         //it's important to add custom error after validate
 
         //view domain errors on terminal
