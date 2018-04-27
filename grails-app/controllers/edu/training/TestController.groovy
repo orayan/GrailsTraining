@@ -4,6 +4,7 @@ import grails.gorm.DetachedCriteria
 import grails.gorm.transactions.Transactional
 import groovy.sql.Sql
 import org.hibernate.criterion.Subqueries
+import org.springframework.web.servlet.ModelAndView
 
 class TestController {
 
@@ -14,7 +15,7 @@ class TestController {
     }
 
     def list = {
-        render "list"
+
     }
 
 
@@ -292,4 +293,57 @@ class TestController {
         render "query done"
 
     }
+
+    def testScope = {
+
+        if(!session["logged_user"]){
+            session["logged_user"] = "ali"
+        }
+
+        flash.message = "message"
+        params.value = "123"
+
+        redirect(action: "executeScope",params:params)
+
+    }
+
+
+    def executeScope = {
+
+        def paramsValue = params["value"] //OR params?.value
+        def loggedUser = session["logged_user"] //OR session?.logged_user
+
+        println("****************START**********************")
+        println("message: ${flash?.message}")
+        println("paramsValue: $paramsValue")
+        println("request: ${request?.properties}")
+        println("loggedUser: $loggedUser")
+        println("*****************END***********************")
+
+
+
+        render "done"
+    }
+
+
+    def testData = {
+        return [data:"abc"]
+    }
+
+    def testDataCustom = {
+        // forward to the list view to show them
+        return new ModelAndView("/template/generalTemplate", [data: "xyz" ])
+    }
+
+    def testChain =  {
+        chain(action: "stepChain", model: [data1: 1])
+    }
+    def stepChain= {
+        chain(action: "finalChain", model: [data2: 2])
+    }
+
+    def finalChain = {
+        return [data3: 3]
+    }
+
 }
