@@ -1,6 +1,9 @@
 package edu.training
 
+import grails.gorm.DetachedCriteria
+import grails.gorm.transactions.Transactional
 import groovy.sql.Sql
+import org.hibernate.criterion.Subqueries
 
 class TestController {
 
@@ -33,9 +36,6 @@ class TestController {
             country.save(flush:true,failOnError:true)
         }
 
-
-
-
         //it's important to add custom error after validate
 
         //view domain errors on terminal
@@ -45,8 +45,8 @@ class TestController {
         respond country
     }
 
-
-    def testQuery = {
+    //@Transactional
+    def testQuery(){
 
         User userIns = User.findByUserId("ali")
         def postCriteria = Post.createCriteria()
@@ -54,7 +54,7 @@ class TestController {
         def queryResult
 
 
-        //************** FINDER **************
+        //************** METHODS **************
 
 //        queryResult = Transaction.list()
 //        queryResult = Transaction.list(offset:10, max:20)
@@ -63,6 +63,8 @@ class TestController {
 //        queryResult = Transaction.count()
 //        queryResult = Transaction.countByUser(userIns)
 
+
+        //************** FINDER **************
 
 //        queryResult = Post.findByUser(userIns)
 //        queryResult = Post.findAllByUser(userIns)
@@ -180,31 +182,85 @@ class TestController {
 
 
 //        queryResult = Profile.where {
-//            def o1 = user
+//            def o1 = user //define alias in critera like (select * from user o1)
 //            o1.userId == "ali" && bio == "bio"
 //        }.list(sort:'o1.userId',max: 10)
 
-
-
-
-       // END OF CLASS
-
-
-
+       //TODO:START FROM HERE
 
 //        queryResult = Profile.where {
 //            salary > avg(salary)
 //        }.list()
 
-
 //        queryResult = Profile.where {
-//            salary < sum(salary).of { bio == "bio" } &&
+//            salary < sum(salary).of { bio == "bio" }
 //        }.list()
 
+//        queryResult = Profile.where {
+//            salary > property(salary).of { address == "ramallah" } && bio ==~ "%b%"
+//        }.list()
 
 //        queryResult = Profile.where {
 //            year(dateOfBirth) == 1980
 //        }.list()
+
+        //************** ADVANCE **************
+
+        //SUB
+//        queryResult = Profile.where {
+//            fullName in where { salary > 100D }.fullName
+//        }.list()
+
+        //MIX
+//        queryResult = Profile.withCriteria {
+//            inList "fullName", Profile.where { address == "ramallah" }.fullName
+//        }
+
+        //VAR
+//        def users = User.where {
+//            userId == "ali"
+//        }.id()
+//
+//        queryResult = Profile.where {
+//            user in users && salary > 10
+//        }.user.list()
+
+
+        //************** DETACHED CRITERIA **************
+
+        def postDetachedCriteria = new DetachedCriteria(Post).build {
+            eq 'user.id', userIns?.id
+        }
+
+//        queryResult = postDetachedCriteria.list(max:10, sort:"content")
+//        def totalCount = postDetachedCriteria.count()
+//        println("totalCount: $totalCount")
+//        println("countResult: ${queryResult?.size()}")
+
+
+//        def postFinder = postDetachedCriteria.findByContentLike("post%")
+//        println("postFinder: $postFinder")
+
+
+//        def postDetachedCriteriaForUpdate = new DetachedCriteria(Post).build {
+//            inList 'content', ["post_content_843","post_content_844"]
+//        }
+//        int totalUpdated = postDetachedCriteriaForUpdate.updateAll(content:"post_content_updated")
+//        println("totalUpdated: $totalUpdated")
+
+
+//        int totalDeleted = postDetachedCriteria.deleteAll()
+//        println("totalDeleted: $totalDeleted")
+
+//        def customProjectionDetachedCriteria =  new DetachedCriteria(Profile).build {
+//            projections {
+//                avg "salary"
+//            }
+//        }
+//        queryResult = Profile.withCriteria {
+//            ge "salary", customProjectionDetachedCriteria
+//            order "fullName"
+//        }
 
 
         //************** HQL **************
@@ -220,7 +276,7 @@ class TestController {
 //        queryResult = sql.rows("select * from profile ")
 
 
-        //************** Dynamic Closuer **************
+        //************** Dynamic Closure In Groovy **************
         List<Post> postList = []
 
         postList.findAll{

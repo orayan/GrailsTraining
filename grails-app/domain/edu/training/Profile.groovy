@@ -54,4 +54,18 @@ class Profile {
     Integer getAge() {
         return Period.between(dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
     }
+
+
+    @Override
+    public String toString() {
+        return "fullName='" + fullName + '\'' +
+                ", bio='" + bio + '\'' +
+                ", email='" + email + '\'' +
+                ", timezone='" + timezone + '\'' +
+                ", address='" + address + '\'' +
+                ", salary=" + salary +
+                ", dateOfBirth=" + dateOfBirth +
+                ", country=" + country +
+                ", user=" + user
+    }
 }
