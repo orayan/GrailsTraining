@@ -85,7 +85,7 @@ class TestController {
 //        println(queryResult?.totalCount)
 
 
-//        queryResult = postCriteria.count {
+//        queryResult = postCriteria.list {
 //            like("content", "post%")
 //            maxResults(10)
 //            order("content", "desc")
@@ -95,11 +95,16 @@ class TestController {
 //             like("content", "post%")
 //             user{
 //                 eq('id',userIns?.id)
+//
+//                 profile{
+//                     ge('salary',500D)
+//                 }
+//
 //             }
 //             maxResults(5)
 //             order("content", "desc")
 //         }
-
+//
 //         queryResult = postCriteria.list {
 //             or{
 //                 like("content", "%1%")
@@ -135,7 +140,6 @@ class TestController {
 //                avg('id')
 //            }
 //        }
-
 
 //        queryResult = postCriteria.list {
 //            projections {
@@ -178,6 +182,13 @@ class TestController {
 //        }.list(sort:'o1.userId',max: 10)
 
 
+
+
+       // END OF CLASS
+
+
+
+
 //        queryResult = Profile.where {
 //            salary > avg(salary)
 //        }.list()
@@ -204,6 +215,19 @@ class TestController {
         //************** SQL **************
 
 //        queryResult = sql.rows("select * from profile ")
+
+
+        //************** Dynamic Closuer **************
+        List<Post> postList = []
+
+        postList.findAll{
+            Boolean result = it.content.contains("1")
+            if(userIns){
+                result = result && it.user == userIns
+            }
+            return result
+        }
+
 
         println(queryResult)
         render "query done"
