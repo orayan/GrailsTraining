@@ -36,6 +36,7 @@ class ProfileController {
     }
 
     def create(){
+        respond new Profile(params)
     }
 
     def save = {

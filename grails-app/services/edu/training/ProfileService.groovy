@@ -53,23 +53,22 @@ class ProfileService {
         return profile
     }
 
-
-
     Profile save(GrailsParameterMap params) {
+        println("in save")
         Profile profile
-
-        //it's update here
-        if (params.long("id")) {
-            profile = Profile.get(params.long("id"))
-        } else {
-            //it's save here
-            profile = new Profile()
-        }
-
         try {
+            //it's update here
+            if (params.long("id")) {
+                profile = Profile.get(params.long("id"))
+            } else {
+                //it's save here
+                profile = new Profile()
+            }
+
             profile.properties = params
             profile.save(flush: true, failOnError: true)
         } catch (Exception e) {
+            e.printStackTrace()
             transactionStatus.setRollbackOnly()
         }
 

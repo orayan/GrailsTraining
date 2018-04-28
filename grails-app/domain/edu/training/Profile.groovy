@@ -34,7 +34,7 @@ class Profile {
 
     static constraints = {
         photo(nullable: true)
-        salary(nullable: true)
+        salary(nullable: true,display:false)
         fullName(nullable: false,blank: false)
         bio(nullable: true,blank: false)
         email(nullable: true,blank: false,email: true)
