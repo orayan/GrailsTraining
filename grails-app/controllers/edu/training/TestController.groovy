@@ -198,7 +198,7 @@ class TestController {
 //        }.list()
 
 //        queryResult = Profile.where {
-//            salary > property(salary).of { address == "ramallah" } && bio ==~ "%b%"
+//            salary > property(salary).of { address == "ramallah } && bio ==~ "%b%"
 //        }.list()
 
 //        queryResult = Profile.where {
@@ -209,7 +209,8 @@ class TestController {
 
         //SUB
 //        queryResult = Profile.where {
-//            fullName in where { salary > 100D }.fullName
+////            fullName in where { salary > 100D }.fullName
+//            fullName in property(fullName).of{ salary > 1000 }
 //        }.list()
 
         //MIX
@@ -311,11 +312,13 @@ class TestController {
     def executeScope = {
 
         def paramsValue = params["value"] //OR params?.value
+        def paramsValue2 = params["value2"] //OR params?.value
         def loggedUser = session["logged_user"] //OR session?.logged_user
 
         println("****************START**********************")
         println("message: ${flash?.message}")
         println("paramsValue: $paramsValue")
+        println("paramsValue2: $paramsValue2")
         println("request: ${request?.properties}")
         println("loggedUser: $loggedUser")
         println("*****************END***********************")

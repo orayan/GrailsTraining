@@ -19,7 +19,6 @@ class ProfileController {
     //multiple values (delete action may be invoked from a POST or DELETE)
     //static allowedMethods = [delete:['POST', 'DELETE']]
 
-
     def index(Integer max) {
 //        redirect(controller:"user",action: "list")
         redirect(action: "list")
@@ -28,7 +27,7 @@ class ProfileController {
     def list = {
         //params (hash map from client that contains all parameters from client)
         PagedResultList pagedResultList = profileService.search(params)
-        return [list:pagedResultList,totalCount:pagedResultList?.totalCount]
+        return [profileList:pagedResultList,profileCount:pagedResultList?.totalCount]
     }
 
     def show = {
@@ -42,7 +41,7 @@ class ProfileController {
     def save = {
         Profile profile = profileService.save(params)
         if(profile.hasErrors()){
-            respond profile.errors, view:'create'
+            respond profile.errors, view:'create' // return [profile:profile]
         }else{
             flash.message = message(code: 'default.created.message', args: [message(code: 'profile.label', default: 'Profile'), profile.id])
             redirect(action: "list")

@@ -9,14 +9,19 @@ class ProfileService {
 
     @Transactional(readOnly = true)
     PagedResultList search(GrailsParameterMap params){
+
+
         Integer max = params.int("max")
         Integer offset = params.int("offset")
         String fullName = params["fullName"]
         Long id = params.long("id")
         Double salary = params.double("salary")
-        Date dateOfBirth = params.date("dateOfBirth")
+        Date dateOfBirth = params.date("dateOfBirth","dd/MM/yyyy")
 
-        PagedResultList result = Post.createCriteria().list (offset:offset,max:max) {
+
+
+
+        PagedResultList result = Profile.createCriteria().list (offset:offset,max:max) {
 
             if(id){
                 eq("id",id)
