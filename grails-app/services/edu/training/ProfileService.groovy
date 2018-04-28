@@ -16,10 +16,12 @@ class ProfileService {
         String fullName = params["fullName"]
         Long id = params.long("id")
         Double salary = params.double("salary")
-        Date dateOfBirth = params.date("dateOfBirth","dd/MM/yyyy")
+        Date dateOfBirth
+        try {
+            dateOfBirth //= params.date("dateOfBirth","dd/MM/yyyy")
+        }catch (Exception e){
 
-
-
+        }
 
         PagedResultList result = Profile.createCriteria().list (offset:offset,max:max) {
 

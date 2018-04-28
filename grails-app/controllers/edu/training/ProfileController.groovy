@@ -14,7 +14,7 @@ class ProfileController {
     // list action has no restrictions
     // delete action may be invoked from a DELETE
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+//    static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
     //multiple values (delete action may be invoked from a POST or DELETE)
     //static allowedMethods = [delete:['POST', 'DELETE']]
@@ -72,7 +72,7 @@ class ProfileController {
     def delete = {
         Boolean deleted = profileService.delete(params)
         if(deleted){
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'profile.label', default: 'Profile'), profile.id])
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'profile.label', default: 'Profile'), params.id])
             redirect(action: "list")
         }else{
             notFound()
